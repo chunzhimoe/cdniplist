@@ -1,0 +1,25 @@
+name: Fetch IP list
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs every day at 00:00
+
+jobs:
+  fetch-ip-list:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Fetch IP list
+      run: |
+        curl -s https://api.gcore.com/cdn/public-ip-list > ip.json
+
+    - name: Commit and push if it changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Auto updated IP list on $timestamp" || exit 0
+        git push
