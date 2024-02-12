@@ -14,7 +14,7 @@ jobs:
 
     - name: Fetch IP list
       run: |
-        curl -s https://api.gcore.com/cdn/public-ip-list > gcore.json
+        curl -s "https://api.gcore.com/cdn/public-ip-list" | jq -r '.addresses[]' > gcore.json
         curl -s https://cachefly.cachefly.net/ips/cdn.txt > cachefly.json
 
     - name: Commit and push if it changed
