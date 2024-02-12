@@ -10,11 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Fetch IP list
       run: |
-        curl -s https://api.gcore.com/cdn/public-ip-list > ip.json
+        curl -s https://api.gcore.com/cdn/public-ip-list > gcore.json
+        curl -s https://cachefly.cachefly.net/ips/cdn.txt > cachefly.json
 
     - name: Commit and push if it changed
       run: |
